@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
-import { useState } from "react";
 
 interface Post {
   id: string;
