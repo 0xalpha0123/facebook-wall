@@ -16,6 +16,15 @@ interface Post {
   image?: string;
 }
 
+// Define the database response type
+interface DatabasePost {
+  id: string;
+  name: string | null;
+  message: string;
+  created_at: string;
+  image: string | null;
+}
+
 const sidebar = {
   name: "Greg Wientjes",
   subtitle: "wall",
@@ -54,9 +63,9 @@ export default function Page() {
         setError("Failed to fetch posts");
       } else if (data) {
         setPosts(
-          data.map((p: any) => ({
+          data.map((p: DatabasePost) => ({
             id: p.id,
-            name: p.name,
+            name: p.name || undefined,
             message: p.message,
             timestamp: p.created_at,
             image: p.image || undefined,
@@ -73,10 +82,10 @@ export default function Page() {
     const channel = supabase
       .channel('realtime:posts')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, (payload) => {
-        const p = payload.new;
+        const p = payload.new as DatabasePost;
         const newPost = {
           id: p.id,
-          name: p.name,
+          name: p.name || undefined,
           message: p.message,
           timestamp: p.created_at,
           image: p.image || undefined,
@@ -228,15 +237,4 @@ export default function Page() {
       </div>
     </div>
   );
-}
-
-// Helper to show time ago
-function timeAgo(dateString: string) {
-  const now = new Date();
-  const date = new Date(dateString);
-  const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
-  if (diff < 60) return `${diff}s ago`;
-  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-  return date.toLocaleDateString();
 }

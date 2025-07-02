@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -58,7 +57,6 @@ export default function MainPage({
   sidebar,
   posts,
   message,
-  image,
   imagePreview,
   error,
   maxChars,
@@ -73,9 +71,6 @@ export default function MainPage({
   isScrolledUp,
   onScrollToTop,
 }: MainPageProps) {
-  // Track loading state for each image by post id
-  const [imageLoading, setImageLoading] = useState<{ [id: string]: boolean }>({});
-
   return (
     <main className="flex-1 w-full">
       {/* New Posts Indicator */}
@@ -97,7 +92,7 @@ export default function MainPage({
       {/* Post Input */}
       <Card className="mb-6">
         <CardContent className="flex flex-col gap-4 p-4 sm:p-6">
-          <Label htmlFor="message">What's on your mind?</Label>
+          <Label htmlFor="message">What&apos;s on your mind?</Label>
           <Textarea
             id="message"
             placeholder="Write something..."
